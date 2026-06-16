@@ -1,0 +1,16 @@
+-- MarinaHub demo data is seeded via TypeScript script (creates auth users + full dataset).
+--
+-- Prerequisites:
+--   1. Run all migrations (001–018)
+--   2. Disable email confirmation in Supabase Auth settings
+--   3. Set SUPABASE_SERVICE_ROLE_KEY in .env or .env.local
+--
+-- Run:
+--   npm run seed:demo
+--
+-- Demo credentials (password: DemoMarina2026!):
+--   owner@stateparkmarina.demo   — Marina owner (State Park Marina)
+--   manager@stateparkmarina.demo — Marina manager
+--   staff@stateparkmarina.demo   — Marina staff
+--   alex.rivera@demo.com         — Consumer with trips & favorites
+--   jamie.chen@demo.com            — Consumer

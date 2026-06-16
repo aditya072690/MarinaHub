@@ -1,0 +1,3 @@
+ALTER TABLE bookings
+  ADD COLUMN IF NOT EXISTS waiver_accepted_at TIMESTAMPTZ,
+  ADD COLUMN IF NOT EXISTS waiver_accepted_by UUID REFERENCES profiles(id) ON DELETE SET NULL;

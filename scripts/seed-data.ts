@@ -1,0 +1,493 @@
+/** Fixed UUIDs for idempotent demo seeding */
+
+export const DEMO_PASSWORD = "DemoMarina2026!";
+
+export const IDS = {
+  users: {
+    owner: "b0000000-0000-4000-8000-000000000001",
+    manager: "b0000000-0000-4000-8000-000000000002",
+    staff: "b0000000-0000-4000-8000-000000000003",
+    alex: "b0000000-0000-4000-8000-000000000004",
+    jamie: "b0000000-0000-4000-8000-000000000005",
+  },
+  marinas: {
+    statePark: "a0000000-0000-4000-8000-000000000001",
+    harbor: "a0000000-0000-4000-8000-000000000002",
+    bigCedar: "a0000000-0000-4000-8000-000000000003",
+    lakeMurray: "a0000000-0000-4000-8000-000000000004",
+  },
+} as const;
+
+export const DEMO_WIDGET_KEYS: Record<string, string> = {
+  [IDS.marinas.statePark]: "mh_demo_statepark_2026_key",
+  [IDS.marinas.harbor]: "mh_demo_harbor_2026_key",
+  [IDS.marinas.bigCedar]: "mh_demo_bigcedar_2026_key",
+  [IDS.marinas.lakeMurray]: "mh_demo_lakemurray_2026_key",
+};
+
+const BOAT_IMG = {
+  pontoon:
+    "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=800&q=80",
+  fishing:
+    "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80",
+  jet: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
+  cruiser:
+    "https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?w=800&q=80",
+  wake: "https://images.unsplash.com/photo-1530549387789-4c1017266635?w=800&q=80",
+  deck: "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=800&q=80",
+};
+
+export interface MarinaSeed {
+  id: string;
+  slug: string;
+  name: string;
+  description: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  timezone: string;
+  primary_color: string;
+  logo_url: string;
+  contact_email: string;
+  contact_phone: string;
+  lat: number;
+  lng: number;
+  settings: Record<string, unknown>;
+  bookingTarget: number;
+}
+
+export interface BoatSeed {
+  id: string;
+  marina_id: string;
+  name: string;
+  description: string;
+  boat_type: string;
+  capacity: number;
+  hourly_rate: number;
+  daily_rate: number;
+  amenities: string[];
+  image_urls: string[];
+  min_booking_hours: number;
+  sort_order: number;
+  metadata: Record<string, unknown>;
+}
+
+export const MARINAS: MarinaSeed[] = [
+  {
+    id: IDS.marinas.statePark,
+    slug: "state-park-marina",
+    name: "State Park Marina",
+    description:
+      "Gateway to Lake Murray with a full-service fleet for families, anglers, and weekend cruisers. Located inside the state park with easy ramp access and ample parking.",
+    address: "2301 Bush River Rd",
+    city: "Columbia",
+    state: "SC",
+    zip: "29210",
+    timezone: "Asia/Kolkata",
+    primary_color: "#0d9488",
+    logo_url: "https://api.dicebear.com/7.x/shapes/svg?seed=statepark",
+    contact_email: "info@stateparkmarina.demo",
+    contact_phone: "(803) 555-0142",
+    lat: 34.0397,
+    lng: -81.152,
+    settings: {
+      operating_hours: 10,
+      operating_hours_detail: {
+        mon: "8-18",
+        tue: "8-18",
+        wed: "8-18",
+        thu: "8-18",
+        fri: "8-18",
+        sat: "7-19",
+        sun: "7-19",
+      },
+      amenities: [
+        "fuel_dock",
+        "pump_out",
+        "parking",
+        "restrooms",
+        "bait_shop",
+        "wifi",
+        "boat_ramp",
+        "ice",
+      ],
+      hero_image_url:
+        "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1200&q=80",
+    },
+    bookingTarget: 38,
+  },
+  {
+    id: IDS.marinas.harbor,
+    slug: "the-harbor",
+    name: "The Harbor",
+    description:
+      "Charleston Harbor's premier marina for coastal cruising and offshore fishing. Upscale fleet with concierge-level service for discerning boaters.",
+    address: "360 Concord St",
+    city: "Charleston",
+    state: "SC",
+    zip: "29401",
+    timezone: "Asia/Kolkata",
+    primary_color: "#1e40af",
+    logo_url: "https://api.dicebear.com/7.x/shapes/svg?seed=theharbor",
+    contact_email: "dockmaster@theharbor.demo",
+    contact_phone: "(843) 555-0198",
+    lat: 32.7874,
+    lng: -79.94,
+    settings: {
+      operating_hours: 10,
+      amenities: ["fuel_dock", "pump_out", "parking", "restrooms", "wifi", "concierge"],
+      hero_image_url:
+        "https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?w=1200&q=80",
+    },
+    bookingTarget: 14,
+  },
+  {
+    id: IDS.marinas.bigCedar,
+    slug: "big-cedar-marina",
+    name: "Big Cedar Marina",
+    description:
+      "Nestled on Table Rock Lake at Big Cedar Lodge, our marina offers luxury wake boats, pontoons, and bass boats for resort guests and visitors.",
+    address: "612 Devil's Pool Rd",
+    city: "Ridgedale",
+    state: "MO",
+    zip: "65739",
+    timezone: "Asia/Kolkata",
+    primary_color: "#166534",
+    logo_url: "https://api.dicebear.com/7.x/shapes/svg?seed=bigcedar",
+    contact_email: "marina@bigcedar.demo",
+    contact_phone: "(417) 555-0167",
+    lat: 36.6178,
+    lng: -93.304,
+    settings: {
+      operating_hours: 10,
+      amenities: ["fuel_dock", "parking", "restrooms", "wifi", "boat_ramp", "resort_shuttle"],
+      hero_image_url:
+        "https://images.unsplash.com/photo-1530549387789-4c1017266635?w=1200&q=80",
+    },
+    bookingTarget: 14,
+  },
+  {
+    id: IDS.marinas.lakeMurray,
+    slug: "lake-murray-marina",
+    name: "Lake Murray Marina",
+    description:
+      "Lexington's favorite lake marina with affordable rentals for every budget. Pontoons, jet boats, and fishing boats steps from the main channel.",
+    address: "215 Marina View Ln",
+    city: "Lexington",
+    state: "SC",
+    zip: "29072",
+    timezone: "Asia/Kolkata",
+    primary_color: "#0284c7",
+    logo_url: "https://api.dicebear.com/7.x/shapes/svg?seed=lakemurray",
+    contact_email: "hello@lakemurraymarina.demo",
+    contact_phone: "(803) 555-0175",
+    lat: 34.0054,
+    lng: -81.1969,
+    settings: {
+      operating_hours: 10,
+      amenities: ["fuel_dock", "parking", "restrooms", "bait_shop", "boat_ramp", "ice"],
+      hero_image_url:
+        "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1200&q=80",
+    },
+    bookingTarget: 22,
+  },
+];
+
+export const BOATS: BoatSeed[] = [
+  // State Park Marina
+  {
+    id: "c0000000-0000-4000-8000-000000000101",
+    marina_id: IDS.marinas.statePark,
+    name: '"Lake Queen" Party Barge 22',
+    description: "Spacious party pontoon with slide and premium sound — ideal for family gatherings.",
+    boat_type: "pontoon",
+    capacity: 12,
+    hourly_rate: 89,
+    daily_rate: 525,
+    amenities: ["cooler", "bluetooth", "bimini", "slide"],
+    image_urls: [BOAT_IMG.pontoon, BOAT_IMG.deck],
+    min_booking_hours: 2,
+    sort_order: 1,
+    metadata: { length_ft: 22, engine: "150hp", year: 2023 },
+  },
+  {
+    id: "c0000000-0000-4000-8000-000000000102",
+    marina_id: IDS.marinas.statePark,
+    name: "Bennington 24 SX",
+    description: "Luxury pontoon with GPS and swim platform for upscale lake days.",
+    boat_type: "pontoon",
+    capacity: 10,
+    hourly_rate: 110,
+    daily_rate: 650,
+    amenities: ["premium stereo", "GPS", "swim platform"],
+    image_urls: [BOAT_IMG.pontoon],
+    min_booking_hours: 2,
+    sort_order: 2,
+    metadata: { length_ft: 24, engine: "200hp", year: 2024 },
+  },
+  {
+    id: "c0000000-0000-4000-8000-000000000103",
+    marina_id: IDS.marinas.statePark,
+    name: "Yamaha AR195",
+    description: "Jet boat with wake tower and ballast for watersports enthusiasts.",
+    boat_type: "jet boat",
+    capacity: 8,
+    hourly_rate: 125,
+    daily_rate: 725,
+    amenities: ["wake tower", "ballast", "bluetooth"],
+    image_urls: [BOAT_IMG.jet, BOAT_IMG.wake],
+    min_booking_hours: 2,
+    sort_order: 3,
+    metadata: { length_ft: 19, engine: "180hp", year: 2023 },
+  },
+  {
+    id: "c0000000-0000-4000-8000-000000000104",
+    marina_id: IDS.marinas.statePark,
+    name: "Tracker Pro Guide V175",
+    description: "Fully rigged fishing boat with fish finder and live well.",
+    boat_type: "fishing",
+    capacity: 4,
+    hourly_rate: 65,
+    daily_rate: 380,
+    amenities: ["fish finder", "live well", "trolling motor"],
+    image_urls: [BOAT_IMG.fishing],
+    min_booking_hours: 2,
+    sort_order: 4,
+    metadata: { length_ft: 17, engine: "90hp", year: 2022 },
+  },
+  {
+    id: "c0000000-0000-4000-8000-000000000105",
+    marina_id: IDS.marinas.statePark,
+    name: "Sea Ray SPX 190",
+    description: "Sporty bowrider perfect for couples and small groups.",
+    boat_type: "bowrider",
+    capacity: 8,
+    hourly_rate: 95,
+    daily_rate: 550,
+    amenities: ["bimini", "cooler", "swim ladder"],
+    image_urls: [BOAT_IMG.cruiser],
+    min_booking_hours: 2,
+    sort_order: 5,
+    metadata: { length_ft: 19, engine: "150hp", year: 2023 },
+  },
+  // The Harbor
+  {
+    id: "c0000000-0000-4000-8000-000000000201",
+    marina_id: IDS.marinas.harbor,
+    name: "Boston Whaler 280 Outrage",
+    description: "Offshore-ready center console for coastal fishing adventures.",
+    boat_type: "center console",
+    capacity: 10,
+    hourly_rate: 195,
+    daily_rate: 1150,
+    amenities: ["GPS", "fish finder", "t-top"],
+    image_urls: [BOAT_IMG.fishing, BOAT_IMG.cruiser],
+    min_booking_hours: 2,
+    sort_order: 1,
+    metadata: { length_ft: 28, engine: "350hp", year: 2024 },
+  },
+  {
+    id: "c0000000-0000-4000-8000-000000000202",
+    marina_id: IDS.marinas.harbor,
+    name: "Sea Ray Sundancer 320",
+    description: "Luxury cruiser with cabin and head for full-day harbor excursions.",
+    boat_type: "cruiser",
+    capacity: 12,
+    hourly_rate: 275,
+    daily_rate: 1600,
+    amenities: ["cabin", "restroom", "stereo", "galley"],
+    image_urls: [BOAT_IMG.cruiser],
+    min_booking_hours: 2,
+    sort_order: 2,
+    metadata: { length_ft: 32, engine: "Twin 300hp", year: 2023 },
+  },
+  {
+    id: "c0000000-0000-4000-8000-000000000203",
+    marina_id: IDS.marinas.harbor,
+    name: "Bennington QX27",
+    description: "Premium pontoon for entertaining large groups on the water.",
+    boat_type: "pontoon",
+    capacity: 14,
+    hourly_rate: 145,
+    daily_rate: 850,
+    amenities: ["premium stereo", "wet bar", "bimini"],
+    image_urls: [BOAT_IMG.pontoon],
+    min_booking_hours: 2,
+    sort_order: 3,
+    metadata: { length_ft: 27, engine: "250hp", year: 2024 },
+  },
+  {
+    id: "c0000000-0000-4000-8000-000000000204",
+    marina_id: IDS.marinas.harbor,
+    name: "Grady-White Freedom 275",
+    description: "Versatile dual console for fishing and cruising the harbor.",
+    boat_type: "dual console",
+    capacity: 10,
+    hourly_rate: 185,
+    daily_rate: 1100,
+    amenities: ["GPS", "live well", "hardtop"],
+    image_urls: [BOAT_IMG.cruiser],
+    min_booking_hours: 2,
+    sort_order: 4,
+    metadata: { length_ft: 27, engine: "300hp", year: 2023 },
+  },
+  // Big Cedar Marina
+  {
+    id: "c0000000-0000-4000-8000-000000000301",
+    marina_id: IDS.marinas.bigCedar,
+    name: "MasterCraft X24",
+    description: "World-class wake boat for resort guests and wake sports.",
+    boat_type: "wake boat",
+    capacity: 12,
+    hourly_rate: 225,
+    daily_rate: 1350,
+    amenities: ["wake tower", "ballast", "premium stereo"],
+    image_urls: [BOAT_IMG.wake],
+    min_booking_hours: 2,
+    sort_order: 1,
+    metadata: { length_ft: 24, engine: "450hp", year: 2024 },
+  },
+  {
+    id: "c0000000-0000-4000-8000-000000000302",
+    marina_id: IDS.marinas.bigCedar,
+    name: "Sun Tracker Bass Buggy 18",
+    description: "Comfortable pontoon for relaxed lake cruising.",
+    boat_type: "pontoon",
+    capacity: 8,
+    hourly_rate: 75,
+    daily_rate: 440,
+    amenities: ["cooler", "bluetooth", "bimini"],
+    image_urls: [BOAT_IMG.pontoon],
+    min_booking_hours: 2,
+    sort_order: 2,
+    metadata: { length_ft: 18, engine: "115hp", year: 2022 },
+  },
+  {
+    id: "c0000000-0000-4000-8000-000000000303",
+    marina_id: IDS.marinas.bigCedar,
+    name: "Ranger Z520L",
+    description: "Tournament-grade bass boat for serious anglers.",
+    boat_type: "fishing",
+    capacity: 3,
+    hourly_rate: 95,
+    daily_rate: 560,
+    amenities: ["fish finder", "live well", "trolling motor"],
+    image_urls: [BOAT_IMG.fishing],
+    min_booking_hours: 2,
+    sort_order: 3,
+    metadata: { length_ft: 20, engine: "250hp", year: 2023 },
+  },
+  {
+    id: "c0000000-0000-4000-8000-000000000304",
+    marina_id: IDS.marinas.bigCedar,
+    name: "Cobalt R5",
+    description: "Premium bowrider with luxury finishes.",
+    boat_type: "bowrider",
+    capacity: 10,
+    hourly_rate: 165,
+    daily_rate: 975,
+    amenities: ["bimini", "cooler", "premium stereo"],
+    image_urls: [BOAT_IMG.cruiser],
+    min_booking_hours: 2,
+    sort_order: 4,
+    metadata: { length_ft: 25, engine: "300hp", year: 2024 },
+  },
+  // Lake Murray Marina
+  {
+    id: "c0000000-0000-4000-8000-000000000401",
+    marina_id: IDS.marinas.lakeMurray,
+    name: "Sun Tracker Party Barge 22 DLX",
+    description: "Affordable party pontoon for groups up to 12.",
+    boat_type: "pontoon",
+    capacity: 12,
+    hourly_rate: 79,
+    daily_rate: 465,
+    amenities: ["cooler", "bluetooth", "bimini"],
+    image_urls: [BOAT_IMG.pontoon],
+    min_booking_hours: 2,
+    sort_order: 1,
+    metadata: { length_ft: 22, engine: "150hp", year: 2022 },
+  },
+  {
+    id: "c0000000-0000-4000-8000-000000000402",
+    marina_id: IDS.marinas.lakeMurray,
+    name: "Yamaha SX190",
+    description: "Fun jet boat for watersports and cruising.",
+    boat_type: "jet boat",
+    capacity: 8,
+    hourly_rate: 115,
+    daily_rate: 675,
+    amenities: ["wake tower", "bluetooth"],
+    image_urls: [BOAT_IMG.jet],
+    min_booking_hours: 2,
+    sort_order: 2,
+    metadata: { length_ft: 19, engine: "180hp", year: 2023 },
+  },
+  {
+    id: "c0000000-0000-4000-8000-000000000403",
+    marina_id: IDS.marinas.lakeMurray,
+    name: "Tracker Pro Team 175 TXW",
+    description: "Lightweight fishing boat for bass and crappie.",
+    boat_type: "fishing",
+    capacity: 4,
+    hourly_rate: 60,
+    daily_rate: 350,
+    amenities: ["fish finder", "live well"],
+    image_urls: [BOAT_IMG.fishing],
+    min_booking_hours: 2,
+    sort_order: 3,
+    metadata: { length_ft: 17, engine: "90hp", year: 2022 },
+  },
+  {
+    id: "c0000000-0000-4000-8000-000000000404",
+    marina_id: IDS.marinas.lakeMurray,
+    name: "Bennington 22 SSX",
+    description: "Mid-range pontoon with great value for families.",
+    boat_type: "pontoon",
+    capacity: 10,
+    hourly_rate: 95,
+    daily_rate: 560,
+    amenities: ["bluetooth", "bimini", "swim platform"],
+    image_urls: [BOAT_IMG.pontoon],
+    min_booking_hours: 2,
+    sort_order: 4,
+    metadata: { length_ft: 22, engine: "150hp", year: 2023 },
+  },
+  {
+    id: "c0000000-0000-4000-8000-000000000405",
+    marina_id: IDS.marinas.lakeMurray,
+    name: "Bayliner Element E18",
+    description: "Compact deck boat for small groups and beginners.",
+    boat_type: "deck boat",
+    capacity: 7,
+    hourly_rate: 70,
+    daily_rate: 410,
+    amenities: ["bimini", "cooler"],
+    image_urls: [BOAT_IMG.deck],
+    min_booking_hours: 2,
+    sort_order: 5,
+    metadata: { length_ft: 18, engine: "115hp", year: 2022 },
+  },
+];
+
+export const CUSTOMERS = [
+  { id: "d0000000-0000-4000-8000-000000000001", marina_id: IDS.marinas.statePark, email: "alex.rivera@demo.com", full_name: "Alex Rivera", phone: "(803) 555-1001", user_id: IDS.users.alex, notes: null },
+  { id: "d0000000-0000-4000-8000-000000000002", marina_id: IDS.marinas.lakeMurray, email: "alex.rivera@demo.com", full_name: "Alex Rivera", phone: "(803) 555-1001", user_id: IDS.users.alex, notes: null },
+  { id: "d0000000-0000-4000-8000-000000000003", marina_id: IDS.marinas.harbor, email: "jamie.chen@demo.com", full_name: "Jamie Chen", phone: "(843) 555-1002", user_id: IDS.users.jamie, notes: null },
+  { id: "d0000000-0000-4000-8000-000000000004", marina_id: IDS.marinas.statePark, email: "pat.obrien@email.com", full_name: "O'Brien, Pat", phone: "(803) 555-2001", user_id: null, notes: "Repeat customer — prefers pontoons" },
+  { id: "d0000000-0000-4000-8000-000000000005", marina_id: IDS.marinas.statePark, email: "emily.watson@email.com", full_name: "Emily Watson", phone: "(803) 555-2002", user_id: null, notes: null },
+  { id: "d0000000-0000-4000-8000-000000000006", marina_id: IDS.marinas.statePark, email: "tyler.brooks@email.com", full_name: "Tyler Brooks", phone: "(803) 555-2003", user_id: null, notes: "Annual company outing contact" },
+  { id: "d0000000-0000-4000-8000-000000000007", marina_id: IDS.marinas.statePark, email: "susan.miller@email.com", full_name: "Susan Miller", phone: "(803) 555-2004", user_id: null, notes: null },
+  { id: "d0000000-0000-4000-8000-000000000008", marina_id: IDS.marinas.statePark, email: "james.cooper@email.com", full_name: "James Cooper", phone: "(803) 555-2005", user_id: null, notes: null },
+  { id: "d0000000-0000-4000-8000-000000000009", marina_id: IDS.marinas.lakeMurray, email: "patricia.nguyen@email.com", full_name: "Patricia Nguyen", phone: "(803) 555-3001", user_id: null, notes: null },
+  { id: "d0000000-0000-4000-8000-000000000010", marina_id: IDS.marinas.lakeMurray, email: "daniel.ortiz@email.com", full_name: "Daniel Ortiz", phone: "(803) 555-3002", user_id: null, notes: null },
+  { id: "d0000000-0000-4000-8000-000000000011", marina_id: IDS.marinas.harbor, email: "rachel.stone@email.com", full_name: "Rachel Stone", phone: "(843) 555-4001", user_id: null, notes: null },
+  { id: "d0000000-0000-4000-8000-000000000012", marina_id: IDS.marinas.harbor, email: "kevin.hayes@email.com", full_name: "Kevin Hayes", phone: "(843) 555-4002", user_id: null, notes: null },
+  { id: "d0000000-0000-4000-8000-000000000013", marina_id: IDS.marinas.bigCedar, email: "linda.park@email.com", full_name: "Linda Park", phone: "(417) 555-5001", user_id: null, notes: null },
+  { id: "d0000000-0000-4000-8000-000000000014", marina_id: IDS.marinas.bigCedar, email: "brian.foster@email.com", full_name: "Brian Foster", phone: "(417) 555-5002", user_id: null, notes: null },
+  { id: "d0000000-0000-4000-8000-000000000015", marina_id: IDS.marinas.statePark, email: "nancy.clark@email.com", full_name: "Nancy Clark", phone: "(803) 555-2006", user_id: null, notes: "Corporate event — 12 guests" },
+  { id: "d0000000-0000-4000-8000-000000000016", marina_id: IDS.marinas.lakeMurray, email: "greg.simmons@email.com", full_name: "Greg Simmons", phone: "(803) 555-3003", user_id: null, notes: null },
+  { id: "d0000000-0000-4000-8000-000000000017", marina_id: IDS.marinas.statePark, email: "michelle.adams@email.com", full_name: "Michelle Adams", phone: "(803) 555-2007", user_id: null, notes: null },
+  { id: "d0000000-0000-4000-8000-000000000018", marina_id: IDS.marinas.lakeMurray, email: "steven.price@email.com", full_name: "Steven Price", phone: "(803) 555-3004", user_id: null, notes: null },
+];
