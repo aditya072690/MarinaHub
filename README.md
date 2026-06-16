@@ -2,10 +2,6 @@
 
 Multi-marina boat rental platform — staff dashboard, consumer storefront, and embeddable booking widget in a single Next.js 15 app.
 
-**🎬 [Watch demo video](LOOM_URL_PLACEHOLDER)** — replace with your Loom URL after recording.
-
-See **[DEMO_SCRIPT.md](./DEMO_SCRIPT.md)** for the full 8–10 minute presenter walkthrough.
-
 ---
 
 ## Project Overview
