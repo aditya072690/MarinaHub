@@ -7,7 +7,7 @@ INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_typ
 VALUES (
   'waivers', 
   'waivers', 
-  false, 
+  true, 
   5242880, -- 5MB limit
   ARRAY['application/pdf']
 )
@@ -20,6 +20,7 @@ ON CONFLICT (id) DO UPDATE SET
 -- Note: Supabase storage uses the storage.objects table
 
 -- 1. Marina Owners/Staff can read waivers for their marina
+DROP POLICY IF EXISTS "Marina owners and staff can view their waivers" ON storage.objects;
 CREATE POLICY "Marina owners and staff can view their waivers"
 ON storage.objects FOR SELECT
 USING (
@@ -32,6 +33,7 @@ USING (
 );
 
 -- 2. Consumers can read their own waivers
+DROP POLICY IF EXISTS "Consumers can view their own waivers" ON storage.objects;
 CREATE POLICY "Consumers can view their own waivers"
 ON storage.objects FOR SELECT
 USING (
@@ -40,6 +42,7 @@ USING (
 );
 
 -- 3. Authenticated users can insert their own waivers
+DROP POLICY IF EXISTS "Authenticated users can upload waivers" ON storage.objects;
 CREATE POLICY "Authenticated users can upload waivers"
 ON storage.objects FOR INSERT
 WITH CHECK (
