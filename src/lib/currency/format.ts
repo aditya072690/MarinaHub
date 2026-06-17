@@ -5,8 +5,8 @@ const CURRENCY_SYMBOLS: Record<string, string> = {
   GBP: "£",
 };
 
-/** Platform default — Indian Rupees */
-export const DEFAULT_CURRENCY = "INR";
+/** Platform default — US Dollars */
+export const DEFAULT_CURRENCY = "USD";
 
 function localeForCurrency(code: string): string | undefined {
   if (code === "INR") return "en-IN";

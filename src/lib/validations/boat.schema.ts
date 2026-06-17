@@ -12,7 +12,7 @@ export const boatSchema = z.object({
   capacity: z.coerce.number().int().min(1, "Capacity must be at least 1").max(100),
   hourly_rate: z.coerce.number().min(0, "Hourly rate must be 0 or greater"),
   daily_rate: optionalRate,
-  status: z.enum(["active", "inactive", "maintenance"]),
+  status: z.enum(["active", "inactive", "maintenance"]).default("active"),
   amenities: z.array(z.string()).default([]),
   min_booking_hours: z.coerce.number().int().min(1).max(24).default(2),
 });
