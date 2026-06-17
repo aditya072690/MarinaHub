@@ -95,10 +95,9 @@ export async function POST(request: Request) {
   const paymentAccount = await syncMarinaPaymentAccount(booking.marina_id);
   const useConnect = marinaCanAcceptStripePayments(paymentAccount);
 
-  if (!useConnect && isProduction) {
-    return NextResponse.json(
-      { error: "Online payment is not available for this marina yet." },
-      { status: 422 }
+  if (!useConnect) {
+    console.warn(
+      `[stripe checkout resume] Marina ${booking.marina_id} has no active Connect account — using platform checkout`
     );
   }
 

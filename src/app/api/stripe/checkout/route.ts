@@ -88,15 +88,6 @@ export async function POST(request: Request) {
   const useConnect = marinaCanAcceptStripePayments(paymentAccount);
 
   if (!useConnect) {
-    if (isProduction) {
-      return NextResponse.json(
-        {
-          error:
-            "This marina is not set up for online payments. The owner must connect Stripe under Dashboard → Payments.",
-        },
-        { status: 422 }
-      );
-    }
     console.warn(
       `[stripe checkout] Marina ${booking.marina_id} has no active Connect account — using platform checkout (dev only)`
     );
