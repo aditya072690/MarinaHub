@@ -2117,7 +2117,7 @@ header[data-main-header].nav-scrolled {
   z-index: 50;
   display: flex;
   width: var(--sb-width-current);
-  min-height: 100vh;
+  height: 100vh;
   flex-direction: column;
   overflow: hidden;
   border-right: 1px solid var(--sb-border-right);
