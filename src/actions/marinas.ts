@@ -83,7 +83,7 @@ export async function createMarina(
 
   const { data: marina, error: fetchError } = await supabase
     .from("marinas")
-    .select("id, name, slug, description, address, city, state, zip, contact_phone, contact_email, website, logo_url, is_active, created_at")
+    .select("id, name, slug, description, address, city, state, zip, contact_phone, contact_email, logo_url, is_active, created_at")
     .eq("id", marinaId)
     .single();
 
