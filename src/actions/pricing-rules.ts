@@ -19,7 +19,7 @@ export async function getPricingRules(
   const supabase = await createClient();
   let query = supabase
     .from("pricing_rules")
-    .select("id, marina_id, boat_id, rule_type, multiplier, amount, date, holiday_name, start_time, end_time, is_active")
+    .select("id, marina_id, boat_id, rule_type, priority, hourly_rate, daily_rate, rate_multiplier, peak_start, peak_end, holiday_date, holiday_name, is_active")
     .eq("marina_id", marinaId)
     .order("rule_type");
 

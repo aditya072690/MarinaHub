@@ -18,7 +18,7 @@ export async function ensureMarinaSettings(marinaId: string): Promise<MarinaSett
   const supabase = await createClient();
   const { data: existing, error } = await supabase
     .from("marina_settings")
-    .select("marina_id, booking_window_days, cancellation_policy, allow_same_day, timezone, currency, tax_rate, business_hours")
+    .select("marina_id, business_hours, booking_buffer_minutes, cancellation_policy, tax_rate, deposit_pct, currency, timezone, segmentation, updated_at, updated_by")
     .eq("marina_id", marinaId)
     .maybeSingle();
 
@@ -56,7 +56,7 @@ export async function getMarinaSettings(marinaId: string): Promise<MarinaSetting
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("marina_settings")
-    .select("marina_id, booking_window_days, cancellation_policy, allow_same_day, timezone, currency, tax_rate, business_hours")
+    .select("marina_id, business_hours, booking_buffer_minutes, cancellation_policy, tax_rate, deposit_pct, currency, timezone, segmentation, updated_at, updated_by")
     .eq("marina_id", marinaId)
     .maybeSingle();
 
