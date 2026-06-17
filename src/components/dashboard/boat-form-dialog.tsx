@@ -171,7 +171,7 @@ export function BoatFormDialog({
                 name="hourly_rate"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Hourly Rate ($)</FormLabel>
+                    <FormLabel>Hourly Rate (₹)</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -190,7 +190,7 @@ export function BoatFormDialog({
                 name="daily_rate"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Daily Rate ($)</FormLabel>
+                    <FormLabel>Daily Rate (₹)</FormLabel>
                     <FormControl>
                       <Input
                         type="number"

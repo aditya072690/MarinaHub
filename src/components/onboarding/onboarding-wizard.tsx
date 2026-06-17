@@ -340,7 +340,7 @@ function AddBoatsStep({
           <Input id="capacity" name="capacity" type="number" defaultValue={6} required />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="hourly_rate">Hourly Rate ($)</Label>
+          <Label htmlFor="hourly_rate">Hourly Rate (₹)</Label>
           <Input id="hourly_rate" name="hourly_rate" type="number" step="0.01" required />
         </div>
       </div>

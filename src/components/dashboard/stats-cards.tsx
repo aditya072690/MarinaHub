@@ -1,5 +1,5 @@
 import { formatCurrency } from "@/lib/currency/format";
-import { CalendarCheck, DollarSign, Ship, Star, TrendingUp } from "lucide-react";
+import { CalendarCheck, IndianRupee, Ship, Star, TrendingUp } from "lucide-react";
 import type { AnalyticsSummary } from "@/types/api";
 
 export function StatsCards({
@@ -17,7 +17,7 @@ export function StatsCards({
     {
       title: "Revenue This Month",
       value: formatCurrency(revenueThisMonth ?? data.revenueThisMonth),
-      icon: DollarSign,
+      icon: IndianRupee,
     },
     {
       title: "Average Rating",
