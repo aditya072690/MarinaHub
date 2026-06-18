@@ -40,7 +40,7 @@ export function DashPageLoadingShell({
   children: ReactNode;
 }) {
   return (
-    <div className="dash-page space-y-6">
+    <div className="dash-page space-y-6" data-dash-page>
       <DashPageHeaderSkeleton titleWidth={titleWidth} showActions={showActions} />
       {children}
     </div>

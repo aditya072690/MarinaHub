@@ -18,6 +18,7 @@ export function DashboardPageAnimator({
   const pathname = usePathname();
   const scopeRef = useRef<HTMLDivElement>(null);
   const animatedPageRef = useRef<Element | null>(null);
+  const animatedPathRef = useRef<string | null>(null);
 
   useEffect(() => {
     const scope = scopeRef.current;
@@ -35,6 +36,12 @@ export function DashboardPageAnimator({
       }
 
       if (page === animatedPageRef.current) return;
+      
+      if (pathname === animatedPathRef.current) {
+        page.classList.add("dash-page-animated");
+        animatedPageRef.current = page;
+        return;
+      }
 
       if (fallbackTimer) {
         window.clearTimeout(fallbackTimer);
@@ -71,6 +78,7 @@ export function DashboardPageAnimator({
 
         page.classList.add("dash-page-animated");
         animatedPageRef.current = page;
+        animatedPathRef.current = pathname;
       };
 
       if (prefersReducedMotion || (animated.length === 0 && rows.length === 0)) {
