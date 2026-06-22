@@ -199,7 +199,9 @@ export async function getConsumerTrips(tab: "upcoming" | "past") {
       .gte("end_at", now)
       .neq("payment_status", "failed");
   } else {
-    query = query.in("status", ["completed", "cancelled", "no_show"]);
+    query = query.or(
+      `status.in.(completed,cancelled,no_show),and(end_at.lt.${now},status.in.(pending,confirmed,checked_in,checked_out),payment_status.neq.failed)`
+    );
   }
 
   const { data, error } = await query;
