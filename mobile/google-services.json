@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "848486751211",
+    "project_id": "marinahub-7c83f",
+    "storage_bucket": "marinahub-7c83f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:848486751211:android:70e1989d310fc3e0d757ae",
+        "android_client_info": {
+          "package_name": "com.marinahub.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB139nM44t_4F_7Z5FhW8MEc56Da3SGdG4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

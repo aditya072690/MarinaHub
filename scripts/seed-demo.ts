@@ -772,6 +772,103 @@ async function seedReviews() {
   }
 }
 
+async function seedIndiaBookingsForDemoUser(now: Date) {
+  console.log("Seeding India bookings for demo user...");
+  // 1) Find the customer record for Alex
+  const { data: customer } = await supabase
+    .from("customers")
+    .select("id")
+    .eq("user_id", IDS.users.alex)
+    .single();
+
+  if (!customer) return;
+
+  const boats = [
+    { boatId: "c0000000-0000-4000-8000-000000000501", marinaId: IDS.marinas.blueHorizon, price: 28000 },
+    { boatId: "c0000000-0000-4000-8000-000000000602", marinaId: IDS.marinas.mumbaiClub, price: 30000 },
+    { boatId: "c0000000-0000-4000-8000-000000000701", marinaId: IDS.marinas.goaYacht, price: 80000 },
+    { boatId: "c0000000-0000-4000-8000-000000000801", marinaId: IDS.marinas.kochiWaterfront, price: 35000 },
+  ];
+
+  const future1 = new Date(now); future1.setDate(now.getDate() + 5);
+  const future2 = new Date(now); future2.setDate(now.getDate() + 12);
+  const past1 = new Date(now); past1.setDate(now.getDate() - 10);
+  const past2 = new Date(now); past2.setDate(now.getDate() - 25);
+
+  const bookings = [
+    {
+      id: "b0000000-0000-4000-8000-111111111111",
+      customer_id: customer.id,
+      boat_id: boats[0].boatId,
+      marina_id: boats[0].marinaId,
+      start_at: future1.toISOString(),
+      end_at: new Date(future1.getTime() + 86400000).toISOString(),
+      status: "confirmed",
+      total_price: boats[0].price,
+      currency: "INR",
+      payment_status: "paid",
+    },
+    {
+      id: "b0000000-0000-4000-8000-111111111112",
+      customer_id: customer.id,
+      boat_id: boats[1].boatId,
+      marina_id: boats[1].marinaId,
+      start_at: future2.toISOString(),
+      end_at: new Date(future2.getTime() + 86400000).toISOString(),
+      status: "confirmed",
+      total_price: boats[1].price,
+      currency: "INR",
+      payment_status: "paid",
+    },
+    {
+      id: "b0000000-0000-4000-8000-111111111113",
+      customer_id: customer.id,
+      boat_id: boats[2].boatId,
+      marina_id: boats[2].marinaId,
+      start_at: past1.toISOString(),
+      end_at: new Date(past1.getTime() + 86400000).toISOString(),
+      status: "completed",
+      total_price: boats[2].price,
+      currency: "INR",
+      payment_status: "paid",
+    },
+    {
+      id: "b0000000-0000-4000-8000-111111111114",
+      customer_id: customer.id,
+      boat_id: boats[3].boatId,
+      marina_id: boats[3].marinaId,
+      start_at: past2.toISOString(),
+      end_at: new Date(past2.getTime() + 86400000).toISOString(),
+      status: "completed",
+      total_price: boats[3].price,
+      currency: "INR",
+      payment_status: "paid",
+    }
+  ];
+
+  await supabase.from("bookings").upsert(bookings);
+
+  // Add 5-star reviews for the past bookings
+  await supabase.from("reviews").upsert([
+    {
+      booking_id: bookings[2].id,
+      user_id: IDS.users.alex,
+      boat_id: bookings[2].boat_id,
+      marina_id: bookings[2].marina_id,
+      rating: 5,
+      comment: "Absolutely amazing experience! The boat was luxurious and the crew in Goa were fantastic.",
+    },
+    {
+      booking_id: bookings[3].id,
+      user_id: IDS.users.alex,
+      boat_id: bookings[3].boat_id,
+      marina_id: bookings[3].marina_id,
+      rating: 5,
+      comment: "A truly unforgettable houseboat ride through the Kochi backwaters.",
+    }
+  ]);
+}
+
 async function main() {
   const now = new Date();
   await cleanup();
@@ -784,6 +881,7 @@ async function main() {
   await seedCustomers();
   await seedAddons();
   await seedBookings(now);
+  await seedIndiaBookingsForDemoUser(now);
   await seedReviews();
   await seedBlocks(now);
   await seedFavorites();
