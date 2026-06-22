@@ -100,8 +100,9 @@ export default function BookingFlowScreen({ route, navigation }: Props) {
         return;
       }
 
-      const apiUrl = process.env.EXPO_PUBLIC_API_URL || 'http://10.0.2.2:3000';
+      const apiUrl = process.env.EXPO_PUBLIC_API_URL;
       
+      console.log('[Stripe] API_URL:', process.env.EXPO_PUBLIC_API_URL);
       const response = await fetch(`${apiUrl}/api/stripe/create-intent`, {
         method: 'POST',
         headers: {

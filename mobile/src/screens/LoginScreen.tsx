@@ -34,20 +34,26 @@ export default function LoginScreen({ navigation }: Props) {
   async function signInWithGoogle() {
     setLoading(true);
     try {
-      await GoogleSignin.hasPlayServices();
+      await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
       const userInfo = await GoogleSignin.signIn();
-      if (userInfo.data?.idToken) {
-        const { error } = await supabase.auth.signInWithIdToken({
-          provider: 'google',
-          token: userInfo.data.idToken,
-        });
-        if (error) {
-          Alert.alert('Error', error.message);
-        }
-      } else {
+      const idToken = userInfo.data?.idToken;
+      
+      if (!idToken) {
         throw new Error('no ID token present!');
       }
+
+      const { error } = await supabase.auth.signInWithIdToken({
+        provider: 'google',
+        token: idToken,
+      });
+
+      if (error) {
+        console.error('[Google Auth] Supabase error:', error.message);
+        Alert.alert('Error', error.message);
+      }
     } catch (error: any) {
+      console.error('[Google Auth] Sign-in error:', error.code, error.message);
+      
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         console.log('User cancelled the login flow');
       } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -55,7 +61,6 @@ export default function LoginScreen({ navigation }: Props) {
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         Alert.alert('Google Sign-In Error', 'Play services not available or outdated.');
       } else {
-        console.error('Google Sign-In Error:', error);
         Alert.alert('Google Sign-In Error', error.message || 'An unknown error occurred during Google Sign-In.');
       }
     } finally {
