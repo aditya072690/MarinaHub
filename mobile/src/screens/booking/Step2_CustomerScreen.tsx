@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { BookingStackParamList } from '../../navigation/types';
 import { Ionicons } from '@expo/vector-icons';
 import { useBookingContext } from '../../context/BookingContext';
 import { z } from 'zod';
+import { supabase } from '../../lib/supabase';
 
 type Props = NativeStackScreenProps<BookingStackParamList, 'Step2_Customer'>;
 
@@ -23,6 +24,30 @@ export default function Step2_CustomerScreen({ navigation }: Props) {
   const [phone, setPhone] = useState(state.customerDetails.phone);
   const [guests, setGuests] = useState(state.customerDetails.guests);
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    async function loadUserProfile() {
+      // If the fields already have data (e.g. going back from a future step), do not overwrite
+      if (fullName || email || phone) return;
+      
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      if (user.email) setEmail(user.email);
+
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('full_name, phone')
+        .eq('id', user.id)
+        .single();
+
+      if (profile) {
+        if (profile.full_name) setFullName(profile.full_name);
+        if (profile.phone) setPhone(profile.phone);
+      }
+    }
+    loadUserProfile();
+  }, []);
 
   const handleNext = () => {
     try {

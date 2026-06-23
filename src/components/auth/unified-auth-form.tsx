@@ -52,7 +52,7 @@ export function UnifiedAuthForm({
   );
   const copy = COPY[persona];
   const redirect = searchParams.get("redirect") ?? "";
-  const googleEnabled = process.env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED === "true";
+  const googleEnabled = true;
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState(searchParams.get("email") ?? "");
