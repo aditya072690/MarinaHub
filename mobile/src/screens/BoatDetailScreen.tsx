@@ -75,7 +75,10 @@ export default function BoatDetailScreen({ route, navigation }: Props) {
       <View style={styles.footer}>
         <TouchableOpacity
           style={styles.bookButton}
-          onPress={() => navigation.navigate('BookingFlow', { boatId: boat.id })}
+          onPress={() => navigation.navigate('Booking', { 
+            screen: 'Step1_Schedule', 
+            params: { boatId: boat.id } 
+          })}
         >
           <Text style={styles.bookButtonText}>Select Dates</Text>
         </TouchableOpacity>

@@ -24,8 +24,11 @@
     "react-native-qrcode-svg": "^6.3.21",
     "react-native-safe-area-context": "~5.7.0",
     "react-native-screens": "4.25.2",
+    "react-native-signature-canvas": "^5.0.2",
     "react-native-svg": "15.15.4",
-    "react-native-url-polyfill": "^3.0.0"
+    "react-native-url-polyfill": "^3.0.0",
+    "react-native-webview": "13.16.1",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/react": "~19.2.2",

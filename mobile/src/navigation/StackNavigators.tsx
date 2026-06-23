@@ -5,7 +5,7 @@ import HomeScreen from '../screens/HomeScreen';
 import SearchScreen from '../screens/SearchScreen';
 import MarinaDetailScreen from '../screens/MarinaDetailScreen';
 import BoatDetailScreen from '../screens/BoatDetailScreen';
-import BookingFlowScreen from '../screens/BookingFlowScreen';
+import BookingStackNavigator from './BookingStackNavigator';
 import ConfirmationScreen from '../screens/ConfirmationScreen';
 
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
@@ -17,7 +17,7 @@ export function HomeStackNavigator() {
       <HomeStack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
       <HomeStack.Screen name="MarinaDetail" component={MarinaDetailScreen} options={{ title: 'Marina' }} />
       <HomeStack.Screen name="BoatDetail" component={BoatDetailScreen} options={{ title: 'Boat' }} />
-      <HomeStack.Screen name="BookingFlow" component={BookingFlowScreen} options={{ title: 'Book' }} />
+      <HomeStack.Screen name="Booking" component={BookingStackNavigator} options={{ headerShown: false }} />
       <HomeStack.Screen name="Confirmation" component={ConfirmationScreen} options={{ headerShown: false }} />
     </HomeStack.Navigator>
   );
@@ -29,7 +29,7 @@ export function SearchStackNavigator() {
       <SearchStack.Screen name="Search" component={SearchScreen} options={{ headerShown: false }} />
       <SearchStack.Screen name="MarinaDetail" component={MarinaDetailScreen} options={{ title: 'Marina' }} />
       <SearchStack.Screen name="BoatDetail" component={BoatDetailScreen} options={{ title: 'Boat' }} />
-      <SearchStack.Screen name="BookingFlow" component={BookingFlowScreen} options={{ title: 'Book' }} />
+      <SearchStack.Screen name="Booking" component={BookingStackNavigator} options={{ headerShown: false }} />
       <SearchStack.Screen name="Confirmation" component={ConfirmationScreen} options={{ headerShown: false }} />
     </SearchStack.Navigator>
   );
