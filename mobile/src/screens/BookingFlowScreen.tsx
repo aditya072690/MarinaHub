@@ -19,12 +19,14 @@ export default function BookingFlowScreen({ route, navigation }: Props) {
 
   const [startDate, setStartDate] = useState(() => {
     const d = new Date();
+    d.setDate(d.getDate() + 1);
     d.setHours(9, 0, 0, 0);
     return d;
   });
   
   const [endDate, setEndDate] = useState(() => {
     const d = new Date();
+    d.setDate(d.getDate() + 1);
     d.setHours(13, 0, 0, 0); // Default to 4 hour booking
     return d;
   });
@@ -129,9 +131,17 @@ export default function BookingFlowScreen({ route, navigation }: Props) {
         merchantDisplayName: 'Marina Hub',
         paymentIntentClientSecret: clientSecret,
         appearance: {
+          style: 'alwaysDark',
           colors: {
-            primary: '#0F172A',
-            background: '#FFFFFF',
+            primary: '#3B82F6',
+            background: '#0F172A',
+            componentBackground: '#1E293B',
+            componentBorder: '#334155',
+            componentDivider: '#334155',
+            primaryText: '#F8FAFC',
+            secondaryText: '#94A3B8',
+            componentText: '#F8FAFC',
+            placeholderText: '#64748B',
           }
         }
       });

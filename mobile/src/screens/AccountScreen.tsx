@@ -47,7 +47,7 @@ export default function AccountScreen() {
     if (session?.user) {
       const { error } = await supabase
         .from('profiles')
-        .upsert({ id: session.user.id, full_name: fullName, phone, avatar_url: avatarUrl });
+        .upsert({ id: session.user.id, email: session.user.email, full_name: fullName, phone, avatar_url: avatarUrl });
         
       if (error) Alert.alert('Error', error.message);
       else Alert.alert('Success', 'Profile updated successfully.');

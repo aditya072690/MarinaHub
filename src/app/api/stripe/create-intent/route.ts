@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     // Fetch boat to get marinaId
     const { data: boat, error: boatError } = await supabase
       .from("boats")
-      .select("marina_id")
+      .select("marina_id, name")
       .eq("id", boatId)
       .single();
 
@@ -78,6 +78,7 @@ export async function POST(request: Request) {
     const paymentIntentParams: Stripe.PaymentIntentCreateParams = {
       amount: totalMinor,
       currency: "usd",
+      description: `Boat Rental Booking: ${boat.name || 'Marina Hub'}`,
       metadata: {
         booking_id: booking.id,
         marina_id: boat.marina_id,

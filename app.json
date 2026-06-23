@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "102108cd-3244-4a38-b570-12062b52ce2a"
+      }
+    },
+    "android": {
+      "package": "com.aditya2110.marinahub"
+    }
+  }
+}
