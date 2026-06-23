@@ -77,7 +77,7 @@ export async function POST(request: Request) {
     // 3. Create the PaymentIntent
     const paymentIntentParams: Stripe.PaymentIntentCreateParams = {
       amount: totalMinor,
-      currency: "usd",
+      currency: "inr",
       description: `Boat Rental Booking: ${boat.name || 'Marina Hub'}`,
       metadata: {
         booking_id: booking.id,

@@ -18,7 +18,7 @@ import { CalendarDays } from "lucide-react";
 export function CustomerDetailCard({
   customer,
   timezone = DEFAULT_TIMEZONE,
-  currency = "USD",
+  currency = "INR",
 }: {
   customer: CustomerDetail;
   timezone?: string;

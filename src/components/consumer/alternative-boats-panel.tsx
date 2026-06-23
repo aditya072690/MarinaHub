@@ -19,7 +19,7 @@ export function AlternativeBoatsPanel({
   alternatives,
   onSelect,
   loading,
-  currency = "USD",
+  currency = "INR",
 }: AlternativeBoatsPanelProps) {
   if (loading) {
     return (

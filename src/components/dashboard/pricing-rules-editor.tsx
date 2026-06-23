@@ -41,7 +41,7 @@ export function PricingRulesEditor({
   rules,
   boats,
   boatId,
-  currency = "USD",
+  currency = "INR",
 }: {
   marinaId: string;
   rules: PricingRule[];

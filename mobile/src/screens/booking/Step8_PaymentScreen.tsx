@@ -54,6 +54,10 @@ export default function Step8_PaymentScreen({ navigation }: Props) {
       const { error: initError } = await initPaymentSheet({
         merchantDisplayName: 'Marina Hub',
         paymentIntentClientSecret: clientSecret,
+        billingDetailsCollectionConfiguration: {
+          name: 'always',
+          address: 'full',
+        },
         style: 'alwaysDark',
         appearance: {
           colors: {
@@ -135,20 +139,20 @@ export default function Step8_PaymentScreen({ navigation }: Props) {
           <View style={styles.glassCard}>
             <View style={styles.priceRow}>
               <Text style={styles.priceItem}>Base Rate</Text>
-              <Text style={styles.priceItemValue}>${state.pricing.baseRate}</Text>
+              <Text style={styles.priceItemValue}>₹{state.pricing.baseRate}</Text>
             </View>
             <View style={styles.priceRow}>
               <Text style={styles.priceItem}>Add-ons & Extras</Text>
-              <Text style={styles.priceItemValue}>${state.pricing.subtotal - state.pricing.baseRate}</Text>
+              <Text style={styles.priceItemValue}>₹{state.pricing.subtotal - state.pricing.baseRate}</Text>
             </View>
             <View style={styles.priceRow}>
               <Text style={styles.priceItem}>Taxes</Text>
-              <Text style={styles.priceItemValue}>${state.pricing.tax.toFixed(2)}</Text>
+              <Text style={styles.priceItemValue}>₹{state.pricing.tax.toFixed(2)}</Text>
             </View>
             <View style={styles.divider} />
             <View style={styles.priceRow}>
               <Text style={styles.totalLabel}>Total</Text>
-              <Text style={styles.totalValue}>${state.pricing.total.toFixed(2)}</Text>
+              <Text style={styles.totalValue}>₹{state.pricing.total.toFixed(2)}</Text>
             </View>
           </View>
 
@@ -161,7 +165,7 @@ export default function Step8_PaymentScreen({ navigation }: Props) {
 
       <View style={styles.footer}>
         <View style={styles.footerInfo}>
-          <Text style={styles.footerPrice}>${state.pricing.total.toFixed(2)}</Text>
+          <Text style={styles.footerPrice}>₹{state.pricing.total.toFixed(2)}</Text>
           <Text style={styles.footerSub}>Due Now</Text>
         </View>
         <TouchableOpacity style={styles.payButton} onPress={checkout} disabled={processing}>

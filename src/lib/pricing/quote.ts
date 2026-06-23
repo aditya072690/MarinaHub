@@ -13,7 +13,7 @@ export function parsePriceQuote(raw: unknown): PriceQuote {
     hourly_rate: Number(data.hourly_rate ?? 0),
     daily_rate: data.daily_rate != null ? Number(data.daily_rate) : null,
     hours: Number(data.hours ?? 0),
-    currency: String(data.currency ?? "USD"),
+    currency: String(data.currency ?? "INR"),
     breakdown: (data.breakdown as Record<string, unknown>) ?? {},
   };
 }

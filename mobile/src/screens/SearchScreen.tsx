@@ -13,7 +13,7 @@ type Props = {
 };
 
 export default function SearchScreen({ navigation }: Props) {
-  const [viewMode, setViewMode] = useState<'map' | 'list'>('map');
+  const [viewMode, setViewMode] = useState<'map' | 'list'>('list');
   const [searchQuery, setSearchQuery] = useState('');
   const [marinas, setMarinas] = useState<any[]>([]);
   const [mapError, setMapError] = useState(false);
