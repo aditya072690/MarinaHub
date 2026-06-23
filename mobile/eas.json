@@ -14,7 +14,11 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://marina-hub-seven.vercel.app"
+        "EXPO_PUBLIC_API_URL": "https://marina-hub-seven.vercel.app",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://wintbeabeghukbunacpp.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpbnRiZWFiZWdodWtidW5hY3BwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyNTMzNTMsImV4cCI6MjA5NjgyOTM1M30.K7MW52A_r8Ek1yYc7n4xBaFyxvxho9R_Aesuj__bYhU",
+        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "pk_test_51NsnEnSHh9sD5uya8Mn1SarjVIXE0FU4DNIjk8NqBxZDNBq7M43eUBu9LPz0ygE9OnpOze8ArnloL9zzZBKAvkcG00FH0m5Qwl",
+        "EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID": "848486751211-jusuh7hi03cgshotsd9118cfuqrvo0j7.apps.googleusercontent.com"
       }
     },
     "production": {
@@ -22,7 +26,11 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://marina-hub-seven.vercel.app"
+        "EXPO_PUBLIC_API_URL": "https://marina-hub-seven.vercel.app",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://wintbeabeghukbunacpp.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpbnRiZWFiZWdodWtidW5hY3BwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyNTMzNTMsImV4cCI6MjA5NjgyOTM1M30.K7MW52A_r8Ek1yYc7n4xBaFyxvxho9R_Aesuj__bYhU",
+        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "pk_test_51NsnEnSHh9sD5uya8Mn1SarjVIXE0FU4DNIjk8NqBxZDNBq7M43eUBu9LPz0ygE9OnpOze8ArnloL9zzZBKAvkcG00FH0m5Qwl",
+        "EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID": "848486751211-jusuh7hi03cgshotsd9118cfuqrvo0j7.apps.googleusercontent.com"
       }
     }
   },

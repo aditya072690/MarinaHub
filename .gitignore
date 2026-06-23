@@ -40,3 +40,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .cursor
+
+
+# Android APK files
+application-*.apk
+build-*.apk
+
+# Or ignore all APK files
+*.apk

@@ -25,7 +25,14 @@ const resetPasswordSchema = z.object({
 });
 
 function getSiteUrl() {
-  return process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  let url =
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    process.env.VERCEL_PROJECT_PRODUCTION_URL ??
+    process.env.VERCEL_URL ??
+    "http://localhost:3000";
+    
+  url = url.startsWith("http") ? url : `https://${url}`;
+  return url.replace(/\/$/, "");
 }
 
 function parseAuthForm(formData: FormData) {
