@@ -107,6 +107,14 @@ flowchart TB
 
 ---
 
+## Mobile Application
+
+A React Native companion mobile app built with Expo (SDK 56) is available in the [mobile/](file:///Users/adityachauhan/Desktop/AdityaChauhan/BraveBrowser/Website/MarinaHub/mobile) directory. 
+
+For information on setup, generating native project folders (`android` and `ios`), and manually building the app, please refer to the [Mobile README](file:///Users/adityachauhan/Desktop/AdityaChauhan/BraveBrowser/Website/MarinaHub/mobile/README.md).
+
+---
+
 ## Feature List
 
 ### Marina Operations
@@ -478,7 +486,7 @@ Migrations: `001`–`049` in `supabase/migrations/`.
 
 ### Phase 3 (out of scope for this release)
 
-- **React Native** mobile app
+- **React Native** mobile app (now available under [mobile/](file:///Users/adityachauhan/Desktop/AdityaChauhan/BraveBrowser/Website/MarinaHub/mobile))
 - **MFA / 2FA** and **SMS/Twilio** notifications
 - **Full Stripe Connect payouts** and **Lake Cash wallet**
 - **Reviews moderation** dashboard
