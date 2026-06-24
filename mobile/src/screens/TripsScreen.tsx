@@ -51,8 +51,11 @@ export default function TripsScreen() {
 
     if (!error && data) {
       const now = new Date();
-      const upcoming = data.filter(d => new Date(d.start_at) >= now && d.status !== 'cancelled');
-      const past = data.filter(d => new Date(d.start_at) < now || d.status === 'cancelled');
+      // Replace +00:00 with Z for safe parsing on iOS/Hermes
+      const safeDate = (dateStr: string) => new Date(dateStr.replace('+00:00', 'Z'));
+      
+      const upcoming = data.filter(d => safeDate(d.start_at) >= now && d.status !== 'cancelled');
+      const past = data.filter(d => safeDate(d.start_at) < now || d.status === 'cancelled');
       setUpcomingTrips(upcoming);
       setPastTrips(past);
     }
@@ -110,7 +113,9 @@ export default function TripsScreen() {
   };
 
   const renderTrip = ({ item }: { item: any }) => {
-    const awaitingPayment = item.status === 'pending' && (item.payment_status === 'unpaid' || item.payment_status === 'pending');
+    // Replace +00:00 with Z for safe parsing on iOS/Hermes
+    const isPast = new Date(item.start_at.replace('+00:00', 'Z')) < new Date();
+    const awaitingPayment = !isPast && item.status === 'pending' && (item.payment_status === 'unpaid' || item.payment_status === 'pending');
     const hasTicket = item.ticket_token && item.marinas?.slug && item.payment_status === 'paid';
 
     return (
@@ -137,8 +142,8 @@ export default function TripsScreen() {
             </Text>
           </View>
           
-          {item.status === 'completed' && item.reviews && item.reviews.length > 0 && (
-            <Text style={styles.stars}>{'★'.repeat(item.reviews[0].rating)}{'☆'.repeat(5 - item.reviews[0].rating)}</Text>
+          {item.status === 'completed' && item.reviews && item.reviews.rating > 0 && (
+            <Text style={styles.stars}>{'★'.repeat(item.reviews.rating)}{'☆'.repeat(5 - item.reviews.rating)}</Text>
           )}
         </View>
 
