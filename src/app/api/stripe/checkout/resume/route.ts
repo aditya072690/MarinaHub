@@ -28,10 +28,20 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Rate limit exceeded" }, { status: 429 });
   }
 
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const authHeader = request.headers.get("authorization");
+  let user;
+  let supabase;
+
+  if (authHeader?.startsWith("Bearer ")) {
+    const token = authHeader.split(" ")[1];
+    supabase = createAdminClient();
+    const { data } = await supabase.auth.getUser(token);
+    user = data?.user;
+  } else {
+    supabase = await createClient();
+    const { data } = await supabase.auth.getUser();
+    user = data?.user;
+  }
 
   if (!user) {
     return NextResponse.json({ error: "Sign in to complete payment" }, { status: 401 });
