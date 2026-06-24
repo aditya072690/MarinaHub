@@ -8,42 +8,23 @@ import { HomeStackParamList } from '../navigation/types';
 type Props = NativeStackScreenProps<HomeStackParamList, 'Home'>;
 
 export default function HomeScreen({ navigation }: Props) {
-  const [marinas, setMarinas] = useState<any[]>([]);
-  const [popularBoats, setPopularBoats] = useState<any[]>([]);
+  const [boats, setBoats] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    fetchMarinas();
+    fetchBoats();
   }, []);
 
-  async function fetchMarinas() {
-    const { data: marinaData, error: marinaErr } = await supabase
-      .from('marinas')
-      .select('id, name, city, state, settings')
-      .eq('is_active', true)
-      .limit(10);
-      
-    if (marinaErr) {
-      console.error(marinaErr);
-    } else {
-      const formattedMarinas = (marinaData || []).map(m => ({
-        id: m.id,
-        name: m.name,
-        location: `${m.city}, ${m.state}`,
-        image_url: m.settings?.hero_image_url || 'https://images.unsplash.com/photo-1574347781559-99e90eb0b3eb',
-        rating: m.settings?.rating || '4.8',
-      }));
-      setMarinas(formattedMarinas);
-    }
-
+  async function fetchBoats() {
+    setLoading(true);
     const { data: boatData, error: boatErr } = await supabase
       .from('boats')
-      .select('*')
-      .limit(5);
+      .select('*, marinas(city, state)')
+      .limit(50);
 
     if (!boatErr && boatData) {
-      setPopularBoats(boatData);
+      setBoats(boatData);
     }
 
     setLoading(false);
@@ -51,9 +32,8 @@ export default function HomeScreen({ navigation }: Props) {
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    setMarinas([]); // Reset list state before fetching
-    setPopularBoats([]);
-    await fetchMarinas();
+    setBoats([]); // Reset list state before fetching
+    await fetchBoats();
     setRefreshing(false);
   }, []);
 
@@ -85,43 +65,24 @@ export default function HomeScreen({ navigation }: Props) {
     );
   };
 
-  const renderMarina = ({ item, index }: { item: any; index: number }) => (
+  const renderBoat = ({ item, index }: { item: any; index: number }) => (
     <FadeInDownCard index={index}>
       <TouchableOpacity 
         style={styles.card}
-        onPress={() => navigation.navigate('MarinaDetail', { id: item.id })}
-      >
-        <Image 
-          source={{ uri: item.image_url || 'https://images.unsplash.com/photo-1574347781559-99e90eb0b3eb' }} 
-          style={styles.cardImage} 
-          contentFit="cover"
-          transition={200}
-          cachePolicy="memory-disk"
-        />
-        <View style={styles.cardContent}>
-          <Text style={styles.cardTitle}>{item.name}</Text>
-          <Text style={styles.cardLocation}>{item.location}</Text>
-          <Text style={styles.cardPrice}>★ {item.rating || 'New'}</Text>
-        </View>
-      </TouchableOpacity>
-    </FadeInDownCard>
-  );
-
-  const renderPopularBoat = ({ item, index }: { item: any; index: number }) => (
-    <FadeInDownCard index={index}>
-      <TouchableOpacity 
-        style={styles.boatCard}
         onPress={() => navigation.navigate('BoatDetail', { id: item.id })}
       >
         <Image 
           source={{ uri: item.image_urls?.[0] || 'https://images.unsplash.com/photo-1569263979104-865ab7cd8d13' }}
-          style={styles.boatCardImage}
+          style={styles.cardImage}
           contentFit="cover"
           transition={200}
         />
-        <View style={styles.boatCardContent}>
-          <Text style={styles.boatCardTitle} numberOfLines={1}>{item.name}</Text>
-          <Text style={styles.boatCardPrice}>₹{item.daily_rate} / day</Text>
+        <View style={styles.cardContent}>
+          <Text style={styles.cardTitle}>{item.name}</Text>
+          {item.marinas?.city && item.marinas?.state && (
+            <Text style={styles.cardLocation}>{item.marinas.city}, {item.marinas.state}</Text>
+          )}
+          <Text style={styles.cardPrice}>₹{item.daily_rate} / day</Text>
         </View>
       </TouchableOpacity>
     </FadeInDownCard>
@@ -163,41 +124,23 @@ export default function HomeScreen({ navigation }: Props) {
           />
         }
       >
-        <Text style={styles.header}>Featured Marinas</Text>
+        <Text style={styles.header}>Available Boats</Text>
         {loading ? (
           <View style={styles.listContainer}>
             <SkeletonCard />
             <SkeletonCard />
+            <SkeletonCard />
           </View>
         ) : (
           <FlatList
-            data={marinas}
+            data={boats}
             keyExtractor={(item) => item.id.toString()}
-            renderItem={renderMarina}
+            renderItem={renderBoat}
             scrollEnabled={false}
             contentContainerStyle={styles.listContainer}
             ListEmptyComponent={
-              <Text style={styles.emptyText}>No marinas found.</Text>
+              <Text style={styles.emptyText}>No boats found.</Text>
             }
-          />
-        )}
-
-        <Text style={[styles.header, { paddingTop: 0 }]}>Popular Boats</Text>
-        {loading ? (
-          <View style={[styles.listContainer, { flexDirection: 'row' }]}>
-            <View style={[styles.boatCard, { width: 250, opacity: 0.5, backgroundColor: '#E2E8F0', height: 200 }]} />
-            <View style={[styles.boatCard, { width: 250, opacity: 0.5, backgroundColor: '#E2E8F0', height: 200, marginLeft: 16 }]} />
-          </View>
-        ) : (
-          <FlatList
-            data={popularBoats}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={renderPopularBoat}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={[styles.listContainer, { paddingRight: 32 }]}
-            snapToInterval={266} // 250 width + 16 margin
-            decelerationRate="fast"
           />
         )}
       </ScrollView>
@@ -256,9 +199,9 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   cardPrice: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#EAB308',
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#3B82F6',
   },
   emptyText: {
     textAlign: 'center',

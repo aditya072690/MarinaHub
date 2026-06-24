@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, ScrollView } from 'react-native';
-import { useStripe } from '@stripe/stripe-react-native';
+import { useStripe, AddressCollectionMode, CollectionMode } from '@stripe/stripe-react-native';
 import { supabase } from '../../lib/supabase';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { BookingStackParamList } from '../../navigation/types';
@@ -55,8 +55,11 @@ export default function Step8_PaymentScreen({ navigation }: Props) {
         merchantDisplayName: 'Marina Hub',
         paymentIntentClientSecret: clientSecret,
         billingDetailsCollectionConfiguration: {
-          name: 'always',
-          address: 'full',
+          name: CollectionMode.ALWAYS,
+          address: AddressCollectionMode.FULL,
+        },
+        defaultBillingDetails: {
+          name: state.customerDetails.fullName,
         },
         style: 'alwaysDark',
         appearance: {

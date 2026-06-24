@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView, Alert } from 'react-native';
 import { Image } from 'expo-image';
+import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../lib/supabase';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { HomeStackParamList } from '../navigation/types';
@@ -11,6 +12,8 @@ export default function BoatDetailScreen({ route, navigation }: Props) {
   const { id } = route.params;
   const [boat, setBoat] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [isFavorited, setIsFavorited] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchBoatDetails();
@@ -18,10 +21,53 @@ export default function BoatDetailScreen({ route, navigation }: Props) {
 
   async function fetchBoatDetails() {
     setLoading(true);
+    const { data: { session } } = await supabase.auth.getSession();
+    const uid = session?.user?.id || null;
+    setUserId(uid);
+
     const { data } = await supabase.from('boats').select('*').eq('id', id).single();
     if (data) setBoat(data);
+
+    if (uid && data) {
+      const { data: favData } = await supabase
+        .from('favorites')
+        .select('id')
+        .eq('user_id', uid)
+        .eq('boat_id', id)
+        .maybeSingle();
+      
+      if (favData) setIsFavorited(true);
+    }
+
     setLoading(false);
   }
+
+  const toggleFavorite = async () => {
+    if (!userId) {
+      Alert.alert('Sign in required', 'Please sign in to save favorites.');
+      return;
+    }
+    
+    if (!boat?.marina_id) return;
+
+    if (isFavorited) {
+      setIsFavorited(false);
+      await supabase
+        .from('favorites')
+        .delete()
+        .eq('user_id', userId)
+        .eq('boat_id', id);
+    } else {
+      setIsFavorited(true);
+      await supabase
+        .from('favorites')
+        .insert({
+          user_id: userId,
+          boat_id: id,
+          marina_id: boat.marina_id
+        });
+    }
+  };
 
   if (loading) {
     return (
@@ -55,7 +101,16 @@ export default function BoatDetailScreen({ route, navigation }: Props) {
           ))}
         </ScrollView>
         <View style={styles.content}>
-          <Text style={styles.title}>{boat.name}</Text>
+          <View style={styles.titleRow}>
+            <Text style={styles.title}>{boat.name}</Text>
+            <TouchableOpacity onPress={toggleFavorite} style={styles.favoriteBtn}>
+              <Ionicons 
+                name={isFavorited ? "heart" : "heart-outline"} 
+                size={28} 
+                color={isFavorited ? "#EF4444" : "#0F172A"} 
+              />
+            </TouchableOpacity>
+          </View>
           <Text style={styles.price}>₹{boat.daily_rate} / day</Text>
           
           <Text style={styles.sectionTitle}>Description</Text>
@@ -112,11 +167,21 @@ const styles = StyleSheet.create({
   content: {
     padding: 16,
   },
+  titleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 4,
+  },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
     color: '#0F172A',
-    marginBottom: 4,
+    flex: 1,
+    paddingRight: 16,
+  },
+  favoriteBtn: {
+    padding: 4,
   },
   price: {
     fontSize: 20,

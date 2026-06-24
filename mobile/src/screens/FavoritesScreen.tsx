@@ -1,18 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity, RefreshControl } from 'react-native';
 import { Image } from 'expo-image';
+import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../lib/supabase';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { TabParamList } from '../navigation/types';
 
-export default function FavoritesScreen() {
+type Props = NativeStackScreenProps<TabParamList, 'Favorites'>;
+
+export default function FavoritesScreen({ navigation }: Props) {
   const [favorites, setFavorites] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     fetchFavorites();
   }, []);
 
   async function fetchFavorites() {
-    setLoading(true);
     const { data: { session } } = await supabase.auth.getSession();
     
     if (session?.user) {
@@ -26,20 +31,47 @@ export default function FavoritesScreen() {
       }
     }
     setLoading(false);
+    setRefreshing(false);
   }
 
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    fetchFavorites();
+  }, []);
+
+  const removeFavorite = async (boatId: string) => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session?.user) {
+      await supabase
+        .from('favorites')
+        .delete()
+        .eq('user_id', session.user.id)
+        .eq('boat_id', boatId);
+      
+      setFavorites(prev => prev.filter(f => f.boat_id !== boatId));
+    }
+  };
+
   const renderFavorite = ({ item }: { item: any }) => (
-    <View style={styles.card}>
+    <TouchableOpacity 
+      style={styles.card}
+      onPress={() => navigation.navigate('HomeStack', { screen: 'BoatDetail', params: { id: item.boat_id } })}
+    >
       <Image 
         source={{ uri: item.boats?.image_urls?.[0] || 'https://images.unsplash.com/photo-1569263979104-865ab7cd8d13' }}
         style={styles.boatImage}
         contentFit="cover"
       />
       <View style={styles.cardContent}>
-        <Text style={styles.boatName}>{item.boats?.name}</Text>
+        <View style={styles.titleRow}>
+          <Text style={styles.boatName}>{item.boats?.name}</Text>
+          <TouchableOpacity onPress={() => removeFavorite(item.boat_id)} style={styles.favoriteBtn}>
+            <Ionicons name="heart" size={28} color="#EF4444" />
+          </TouchableOpacity>
+        </View>
         <Text style={styles.price}>₹{item.boats?.daily_rate || 0} / day</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   if (loading) {
@@ -57,6 +89,7 @@ export default function FavoritesScreen() {
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderFavorite}
         contentContainerStyle={styles.list}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         ListEmptyComponent={
           <Text style={styles.emptyText}>You haven't saved any favorites yet.</Text>
         }
@@ -94,11 +127,21 @@ const styles = StyleSheet.create({
   cardContent: {
     padding: 16,
   },
+  titleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 4,
+  },
   boatName: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#0F172A',
-    marginBottom: 4,
+    flex: 1,
+    paddingRight: 16,
+  },
+  favoriteBtn: {
+    padding: 4,
   },
   price: {
     fontSize: 16,

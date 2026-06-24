@@ -6,8 +6,8 @@ export type RootStackParamList = {
 };
 
 export type TabParamList = {
-  HomeStack: undefined;
-  SearchStack: undefined;
+  HomeStack: NavigatorScreenParams<HomeStackParamList>;
+  SearchStack: NavigatorScreenParams<SearchStackParamList>;
   Favorites: undefined;
   Trips: undefined;
   Account: undefined;
